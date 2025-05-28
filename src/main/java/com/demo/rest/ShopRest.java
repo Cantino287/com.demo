@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 //@CrossOrigin(origins = "*") // Allow all origins
+@CrossOrigin(origins = {
+    "https://frontend-alpha-gilt-12.vercel.app",
+    "https://qr-rho-ivory.vercel.app",
+    "https://admin-page-opal-three.vercel.app/"
+})
 @RequestMapping(path = "/shop")
 public interface ShopRest {
 
