@@ -170,7 +170,7 @@ public class QRCodeServiceImpl implements QRCodeService {
         String combined = tableNumber + ":" + seat + ":" + password + ":" + shopId;
         String encoded = Base64.getUrlEncoder().encodeToString(combined.getBytes());
 
-        String qrContent = "http://localhost:5173/auto-login?data=" + encoded;
+        String qrContent = "https://qr-rho-ivory.vercel.app/auto-login?data=" + encoded;
 
         // Ensure the directory exists
         File directory = new File(QR_CODE_PATH);
