@@ -86,17 +86,15 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 
 @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
-
-        // ✅ Required for correct CORS preflight behavior
-        configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app")); // ✅ your frontend
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));   // ✅ include OPTIONS
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true); // ✅ required if using cookies or Authorization header
+        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 
