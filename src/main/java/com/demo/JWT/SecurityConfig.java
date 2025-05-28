@@ -90,7 +90,7 @@ public CorsConfigurationSource corsConfigurationSource() {
      configuration.setAllowedOrigins(List.of(
         "https://frontend-alpha-gilt-12.vercel.app",
         "https://qr-rho-ivory.vercel.app",
-        "https://admin-two-omega-57.vercel.app"
+        "https://admin-page-opal-three.vercel.app"
     ));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
