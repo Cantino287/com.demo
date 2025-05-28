@@ -88,9 +88,7 @@ public class SecurityConfig {
 public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
      configuration.setAllowedOrigins(List.of(
-        "https://frontend-alpha-gilt-12.vercel.app",
-        "https://qr-rho-ivory.vercel.app",
-        "https://admin-page-opal-three.vercel.app"
+        "https://frontend-alpha-gilt-12.vercel.app"
     ));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
