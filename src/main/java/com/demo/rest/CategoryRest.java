@@ -5,10 +5,12 @@ import com.demo.POJO.Category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Map;
 //@CrossOrigin(origins = "*") // Allow all origins
+@CrossOrigin(origins = "https://frontend-alpha-gilt-12.vercel.app", allowCredentials = "true")
 @RequestMapping(path = "/category")
 public interface CategoryRest {
 
