@@ -120,7 +120,7 @@ public class SecurityConfig {
                     "/shop/delete/", "/account/create", "/account/all", 
                     "/account/update/", "/account/delete/", "/account/login", 
                     "/account/id/", "/table-login/grouped-by-shop", 
-                    "/table-login/shop/", "shop/shop-name/", "/product/shop/"
+                    "/table-login/shop/", "shop/shop-name/", "/product/shop/","/**"
                 ).permitAll()
 
                 // 🔐 All other endpoints require authentication
