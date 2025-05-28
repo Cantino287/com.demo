@@ -51,75 +51,60 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); // For testing only; replace with a stronger encoder in production
+        return NoOpPasswordEncoder.getInstance(); // Replace with strong encoder in prod
     }
 
-  @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ use the CORS config
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers(
-                "/", "/user/login", "/user/signup", "/user/get", "/user/admin", 
-                "/user/forgotPassword", "/user/resetPassword", "/orders/get", 
-                "/orders/getByShopId/", "/orders/status/", 
-                "/category/get", "/category/add", "/category/update", 
-                "/category/delete/", "/product/get", "/product/add", 
-                "/product/update/", "/product/delete/", 
-                "/product/update-status/", "/deliveries/get", 
-                "/delivery/all", "/delivery/", "/delivery/status/", 
-                "/deliveries/add", "/images/", "/table-login/generate-qr/", 
-                "/table-login/add", "/table-login/auto-login/", 
-                "/orders/placeOrder", "/delivery/placeOrder", 
-                "/delivery/getByEmail", "/delivery/getOrderByShop/", 
-                "/bill/generate", "/table-login/edit/", 
-                "/table-login/all", "/table-login/status/", 
-                "/table-login/update-status/", "/shop/get", "/shop/all", 
-                "/shop/add", "/shop/update", "/shop/delete/", 
-                "/account/create", "/account/all", "/account/update/", 
-                "/account/delete/", "/account/login", "/account/id/", 
-                "/table-login/grouped-by-shop", "/table-login/shop/", 
-                "shop/shop-name/", "/product/shop/"
-            ).permitAll()
-            .anyRequest().authenticated()
-        )
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with your config
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/", "/user/login", "/user/signup", "/user/get", "/user/admin", 
+                    "/user/forgotPassword", "/user/resetPassword", "/orders/get", 
+                    "/orders/getByShopId/", "/orders/status/", 
+                    "/category/get", "/category/add", "/category/update", 
+                    "/category/delete/", "/product/get", "/product/add", 
+                    "/product/update/", "/product/delete/", 
+                    "/product/update-status/", "/deliveries/get", 
+                    "/delivery/all", "/delivery/", "/delivery/status/", 
+                    "/deliveries/add", "/images/", "/table-login/generate-qr/", 
+                    "/table-login/add", "/table-login/auto-login/", 
+                    "/orders/placeOrder", "/delivery/placeOrder", 
+                    "/delivery/getByEmail", "/delivery/getOrderByShop/", 
+                    "/bill/generate", "/table-login/edit/", 
+                    "/table-login/all", "/table-login/status/", 
+                    "/table-login/update-status/", "/shop/get", "/shop/all", 
+                    "/shop/add", "/shop/update", "/shop/delete/", 
+                    "/account/create", "/account/all", "/account/update/", 
+                    "/account/delete/", "/account/login", "/account/id/", 
+                    "/table-login/grouped-by-shop", "/table-login/shop/", 
+                    "shop/shop-name/", "/product/shop/"
+                ).permitAll()
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-    http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-    return http.build();
-}
+        return http.build();
+    }
 
-@Bean
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app")); // ✅ your frontend
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));   // ✅ include OPTIONS
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // ✅ required if using cookies or Authorization header
-        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
-@Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app"));
+        config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app")); // Your frontend URL
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         config.setExposedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-
-        return new CorsFilter(source);
+        source.registerCorsConfiguration("/", config); // **Important: use / here**
+        return source;
     }
-
+}
 //    @Configuration
 //    @EnableWebMvc
 //    public class WebConfig implements WebMvcConfigurer {
