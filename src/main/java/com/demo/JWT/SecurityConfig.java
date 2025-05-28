@@ -101,7 +101,7 @@ public class SecurityConfig {
         config.setExposedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/", config); // **Important: use / here**
+        source.registerCorsConfiguration("/**", config); // **Important: use / here**
         return source;
     }
 }
