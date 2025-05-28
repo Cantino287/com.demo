@@ -47,38 +47,58 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance(); // For testing only; replace with a stronger encoder in production
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                                
-                                .requestMatchers("/","/user/login", "/user/signup", "/user/get", "/user/admin", "/user/forgotPassword","/user/resetPassword", "/orders/get", "/orders/getByShopId/**","/orders/status/**", "/user/forgotPassword","/category/get","/category/add","/category/update","/category/delete/**","/product/get","/product/add","/product/update/**","/product/delete/**","/product/update-status/**","/deliveries/get","/delivery/all","/delivery/**","/delivery/status/**","/deliveries/add","/images/**","/table-login/generate-qr/**","/table-login/add","/table-login/auto-login/**","/orders/placeOrder","/orders/getByShopId/**","/delivery/placeOrder","/delivery/getByEmail","/delivery/getOrderByShop/**","/bill/generate","/table-login/edit/**","/table-login/all","/table-login/status/**","/table-login/update-status/**","/shop/get","/shop/all","/shop/add","/shop/update","/shop/delete/**", "/account/create", "/account/all", "/account/update/**", "/account/delete/**", "/account/login", "/account/id/**", "/table-login/grouped-by-shop", "/table-login/shop/**","/table-login/all", "shop/shop-name/**","/product/shop/**").permitAll()
+  @Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ use the CORS config
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
+                "/", "/user/login", "/user/signup", "/user/get", "/user/admin", 
+                "/user/forgotPassword", "/user/resetPassword", "/orders/get", 
+                "/orders/getByShopId/", "/orders/status/", 
+                "/category/get", "/category/add", "/category/update", 
+                "/category/delete/", "/product/get", "/product/add", 
+                "/product/update/", "/product/delete/", 
+                "/product/update-status/", "/deliveries/get", 
+                "/delivery/all", "/delivery/", "/delivery/status/", 
+                "/deliveries/add", "/images/", "/table-login/generate-qr/", 
+                "/table-login/add", "/table-login/auto-login/", 
+                "/orders/placeOrder", "/delivery/placeOrder", 
+                "/delivery/getByEmail", "/delivery/getOrderByShop/", 
+                "/bill/generate", "/table-login/edit/", 
+                "/table-login/all", "/table-login/status/", 
+                "/table-login/update-status/", "/shop/get", "/shop/all", 
+                "/shop/add", "/shop/update", "/shop/delete/", 
+                "/account/create", "/account/all", "/account/update/", 
+                "/account/delete/", "/account/login", "/account/id/", 
+                "/table-login/grouped-by-shop", "/table-login/shop/", 
+                "shop/shop-name/", "/product/shop/"
+            ).permitAll()
+            .anyRequest().authenticated()
+        )
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
+    return http.build();
+}
 
 @Bean
-public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-     configuration.setAllowedOrigins(List.of(
-        "https://frontend-alpha-gilt-12.vercel.app"
-    ));
-    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    configuration.setAllowedHeaders(List.of("*"));
-    configuration.setAllowCredentials(true); // ✅ required if you're using cookies
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-}
+        // ✅ Required for correct CORS preflight behavior
+        configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
 //    @Configuration
