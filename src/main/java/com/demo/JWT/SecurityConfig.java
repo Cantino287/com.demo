@@ -53,10 +53,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-//                                .requestMatchers("/bill/generate").hasRole("USER")
                                 
                                 .requestMatchers("/","/user/login", "/user/signup", "/user/get", "/user/admin", "/user/forgotPassword","/user/resetPassword", "/orders/get", "/orders/getByShopId/**","/orders/status/**", "/user/forgotPassword","/category/get","/category/add","/category/update","/category/delete/**","/product/get","/product/add","/product/update/**","/product/delete/**","/product/update-status/**","/deliveries/get","/delivery/all","/delivery/**","/delivery/status/**","/deliveries/add","/images/**","/table-login/generate-qr/**","/table-login/add","/table-login/auto-login/**","/orders/placeOrder","/orders/getByShopId/**","/delivery/placeOrder","/delivery/getByEmail","/delivery/getOrderByShop/**","/bill/generate","/table-login/edit/**","/table-login/all","/table-login/status/**","/table-login/update-status/**","/shop/get","/shop/all","/shop/add","/shop/update","/shop/delete/**", "/account/create", "/account/all", "/account/update/**", "/account/delete/**", "/account/login", "/account/id/**", "/table-login/grouped-by-shop", "/table-login/shop/**","/table-login/all", "shop/shop-name/**","/product/shop/**").permitAll()
-//                                .requestMatchers("/user/login", "/user/signup", "/user/forgotPassword","/category/get","/product/get","/deliveries/get","/deliveries/add","/images/**","/table-login/auto-login","/table-login/add","/qrcode/generate").permitAll()
 
                                 .anyRequest().authenticated()
                 )
@@ -66,24 +64,7 @@ public class SecurityConfig {
 
         return http.build();
     }
-//@Bean
-//public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//    http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-//    return http.build();
-//}
 
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//        configuration.setAllowCredentials(true);
-//        configuration.setAllowedHeaders(List.of("*"));
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
 @Bean
 public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
