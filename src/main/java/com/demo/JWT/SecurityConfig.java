@@ -32,27 +32,27 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
-// @Configuration
-// @EnableWebSecurity
-// public class SecurityConfig {
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
 
-//     private final JwtFilter jwtFilter;
-//     private final UserDetailsService customerUserDetailsService;
+    private final JwtFilter jwtFilter;
+    private final UserDetailsService customerUserDetailsService;
 
-//     public SecurityConfig(JwtFilter jwtFilter, UserDetailsService customerUserDetailsService) {
-//         this.jwtFilter = jwtFilter;
-//         this.customerUserDetailsService = customerUserDetailsService;
-//     }
+    public SecurityConfig(JwtFilter jwtFilter, UserDetailsService customerUserDetailsService) {
+        this.jwtFilter = jwtFilter;
+        this.customerUserDetailsService = customerUserDetailsService;
+    }
 
-//     @Bean
-//     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-//         return authConfig.getAuthenticationManager();
-//     }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
 
-//     @Bean
-//     public PasswordEncoder passwordEncoder() {
-//         return NoOpPasswordEncoder.getInstance(); // Replace with strong encoder in prod
-//     }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance(); // Replace with strong encoder in prod
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -91,52 +91,52 @@ import java.util.List;
         return http.build();
     }
 
-//     @Bean
-//     public CorsConfigurationSource corsConfigurationSource() {
-//         CorsConfiguration config = new CorsConfiguration();
-//         config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app")); // Your frontend URL
-//         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//         config.setAllowedHeaders(List.of("*"));
-//         config.setAllowCredentials(true);
-//         config.setExposedHeaders(List.of("Authorization", "Content-Type"));
-
-//         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//         source.registerCorsConfiguration("/", config); // **Important: use / here**
-//         return source;
-//     }
-// }
-
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ Apply CORS config
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/").permitAll()
-                .anyRequest().authenticated()
-            );
-        return http.build();
-    }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
-        // ✅ Use exact deployed frontend domain
-        config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app"));
+        config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app")); // Your frontend URL
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
+        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/", config);
+        source.registerCorsConfiguration("/", config); // **Important: use / here**
         return source;
     }
 }
+
+// @Configuration
+// @EnableWebSecurity
+// public class SecurityConfig {
+
+//     @Bean
+//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//         http
+//             .csrf(csrf -> csrf.disable())
+//             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ Apply CORS config
+//             .authorizeHttpRequests(auth -> auth
+//                 .requestMatchers("/").permitAll()
+//                 .anyRequest().authenticated()
+//             );
+//         return http.build();
+//     }
+
+//     @Bean
+//     public CorsConfigurationSource corsConfigurationSource() {
+//         CorsConfiguration config = new CorsConfiguration();
+
+//         // ✅ Use exact deployed frontend domain
+//         config.setAllowedOrigins(List.of("https://frontend-alpha-gilt-12.vercel.app"));
+//         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//         config.setAllowedHeaders(List.of("*"));
+//         config.setAllowCredentials(true);
+
+//         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//         source.registerCorsConfiguration("/", config);
+//         return source;
+//     }
+// }
 
 
 
