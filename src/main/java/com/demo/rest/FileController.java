@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 @RequestMapping("/images")
 public class FileController {
 
-    private final String BASE_DIRECTORY = "./uploads/";
+    private final String BASE_DIRECTORY = "./com.demo/uploads/";
 
     @GetMapping("/{folder}/{filename:.+}")
     public ResponseEntity<Resource> getImage(
