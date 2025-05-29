@@ -162,7 +162,7 @@ import java.util.Base64;
 @Service
 public class QRCodeServiceImpl implements QRCodeService {
 
-    private static final String QR_CODE_PATH = "./com.demo/qrcodes/";
+    private static final String QR_CODE_PATH = "public/images/";
 
     @Override
     public void generateQRCode(String tableNumber, String seat, String password, Integer shopId) throws Exception {
