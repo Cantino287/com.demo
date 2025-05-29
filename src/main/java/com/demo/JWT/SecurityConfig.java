@@ -146,12 +146,17 @@ public class SecurityConfig {
     //     source.registerCorsConfiguration("/**", config); // **Important: use / here**
     //     return source;
     // }
-    @Bean
+   @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
         // Allow your Vercel frontend
-        config.setAllowedOrigins(Arrays.asList("https://frontend-alpha-gilt-12.vercel.app"));
+         config.setAllowedOrigins(Arrays.asList(
+            "http://localhost:5173",
+            "https://frontend-alpha-gilt-12.vercel.app",
+            "https://qr-rho-ivory.vercel.app",
+            "https://admin-page-opal-three.vercel.app"
+        ));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true); // If you're using cookies or Authorization headers
