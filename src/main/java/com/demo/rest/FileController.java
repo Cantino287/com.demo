@@ -12,12 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/")
 public class FileController {
 
-    private final String BASE_DIRECTORY = "./com.demo/uploads/";
+    private final String BASE_DIRECTORY = "images";
 
-    @GetMapping("/{folder}/{filename:.+}")
+    @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> getImage(
             @PathVariable String folder,
             @PathVariable String filename) {
