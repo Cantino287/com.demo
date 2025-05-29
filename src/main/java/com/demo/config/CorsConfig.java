@@ -13,10 +13,15 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("http://localhost:517*") // ✅ Wildcard support
+                        .allowedOrigins(
+                            "http://localhost:5173", // for local dev
+                            "https://frontend-alpha-gilt-12.vercel.app",
+                            "https://qr-rho-ivory.vercel.app",
+                            "https://admin-page-opal-three.vercel.app"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true); // ✅ If using cookies/session
+                        .allowCredentials(true);
             }
         };
     }
